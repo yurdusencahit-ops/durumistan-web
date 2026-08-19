@@ -3,127 +3,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dürümistan - Online Menü</title>
+<title>Dürümistan - Geleneksel Lezzet Durağı</title>
 <style>
+:root {
+--bg-color: #121212;
+--card-bg: rgba(30, 30, 30, 0.9);
+--accent-color: #d4a373;
+--text-color: #fefae0;
+}
 body {
-font-family: Arial, sans-serif;
-background-color: #111;
-color: #fff;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background-color: var(--bg-color);
+color: var(--text-color);
 margin: 0;
 padding: 0;
-text-align: center;
+line-height: 1.6;
+position: relative;
 }
+
+/* Arka Plan Slider ve Derinlik Efekti */
+.bg-slider {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -2;
+overflow: hidden;
+}
+.bg-slide {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-size: cover;
+background-position: center;
+opacity: 0;
+transform: scale(1);
+transition: opacity 2s ease-in-out, transform 10s ease-out;
+}
+.bg-slide.active {
+opacity: 0.35;
+transform: scale(1.08);
+}
+.bg-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(to bottom, rgba(18,18,18,0.6), rgba(18,18,18,0.95));
+z-index: -1;
+}
+
+/* Müzik Kontrol Butonu */
+.music-control {
+position: fixed;
+top: 20px;
+right: 20px;
+z-index: 1000;
+background: rgba(0, 0, 0, 0.7);
+border: 2px solid var(--accent-color);
+color: var(--accent-color);
+padding: 10px 15px;
+border-radius: 30px;
+cursor: pointer;
+font-weight: bold;
+display: flex;
+align-items: center;
+gap: 8px;
+backdrop-filter: blur(5px);
+transition: background 0.3s;
+}
+.music-control:hover {
+background: var(--accent-color);
+color: #000;
+}
+
 header {
-background-color: #1a1a1a;
-padding: 20px;
-border-bottom: 2px solid #ffcc00;
+text-align: center;
+padding: 90px 20px;
+border-bottom: 3px solid var(--accent-color);
+background: rgba(0, 0, 0, 0.4);
+backdrop-filter: blur(4px);
 }
-h1 {
-color: #ffcc00;
-font-size: 2.5em;
+header h1 {
+font-size: 3.5rem;
+color: var(--accent-color);
 margin: 0;
+letter-spacing: 2px;
+text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+header p {
+font-size: 1.2rem;
+font-style: italic;
+color: var(--text-color);
+text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+nav {
+background-color: rgba(0, 0, 0, 0.85);
+padding: 15px;
+text-align: center;
+position: sticky;
+top: 0;
+z-index: 100;
+backdrop-filter: blur(10px);
+border-bottom: 1px solid #333;
+}
+nav a {
+color: var(--text-color);
+text-decoration: none;
+margin: 0 15px;
+font-weight: bold;
+transition: color 0.3s;
+}
+nav a:hover {
+color: var(--accent-color);
 }
 .container {
-max-width: 800px;
-margin: 20px auto;
-background: #222;
+max-width: 900px;
+margin: 40px auto;
+padding: 0 20px;
+}
+section {
+margin-bottom: 60px;
+}
+h2 {
+text-align: center;
+color: var(--accent-color);
+font-size: 2.2rem;
+border-bottom: 2px solid var(--accent-color);
+padding-bottom: 10px;
+margin-bottom: 30px;
+}
+.about-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 20px;
+}
+.about-card, .contact-card {
+background-color: var(--card-bg);
+padding: 25px;
+border-radius: 8px;
+border-left: 4px solid var(--accent-color);
+backdrop-filter: blur(5px);
+}
+.contact-card {
+text-align: center;
+grid-column: 1 / -1;
+}
+.contact-card a {
+color: var(--accent-color);
+font-size: 1.5rem;
+text-decoration: none;
+font-weight: bold;
+}
+.menu-category {
+background-color: var(--card-bg);
 padding: 20px;
-border-radius: 10px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+border-radius: 8px;
+margin-bottom: 20px;
+backdrop-filter: blur(5px);
 }
 .menu-item {
 display: flex;
 justify-content: space-between;
-padding: 12px 15px;
-border-bottom: 1px solid #333;
-font-size: 1.1em;
+padding: 10px 0;
+border-bottom: 1px dashed rgba(255,255,255,0.15);
 }
 .menu-item:last-child {
 border-bottom: none;
 }
 .price {
-color: #ffcc00;
+color: var(--accent-color);
 font-weight: bold;
 }
-.contact {
-margin-top: 30px;
-background: #ff4d4d;
-color: white;
-padding: 15px;
-font-size: 1.2em;
-font-weight: bold;
-border-radius: 5px;
-display: inline-block;
+footer {
+background-color: rgba(0, 0, 0, 0.9);
+text-align: center;
+padding: 20px;
+border-top: 1px solid #333;
+font-size: 0.9rem;
+color: #888;
+}
+@media (max-width: 768px) {
+.about-grid { grid-template-columns: 1fr; }
+header h1 { font-size: 2.5rem; }
+.music-control { top: 10px; right: 10px; font-size: 0.8rem; padding: 6px 10px; }
 }
 </style>
 </head>
 <body>
 
+<!-- Arka Plan Resimleri (Derinlik Efekti ve Slayt) -->
+<div class="bg-slider">
+<div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1600&q=80');"></div>
+<div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1600&q=80');"></div>
+<div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=1600&q=80');"></div>
+</div>
+<div class="bg-overlay"></div>
+
+<!-- Arka Plan Müzik Çalar (Telifsuz Akustik / Restoran Fon Müziği) -->
+<audio id="bgMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=acoustic-guitars-background-music-for-vlogs-presentations-110098.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-control" onclick="toggleMusic()">
+🎵 <span id="musicText">Müziği Aç</span>
+</button>
+
 <header>
 <h1>DÜRÜMİSTAN</h1>
+<p>Çoban Salata, Ezme, Turşu Bizden Afiyet Olsun!</p>
 </header>
 
+<nav>
+<a href="#menu">Menü</a>
+<a href="#vizyon-misyon">Vizyon & Misyon</a>
+<a href="#iletisim">İletişim</a>
+</nav>
+
 <div class="container">
-<h2>MENÜ</h2>
 
-<div class="menu-item">
-<span>Adana kebap dürüm</span>
-<span class="price">300 TL</span>
-</div>
-<div class="menu-item">
-<span>Urfa kebap dürüm</span>
-<span class="price">300 TL</span>
-</div>
-<div class="menu-item">
-<span>Adana porsiyon</span>
-<span class="price">500 TL</span>
-</div>
-<div class="menu-item">
-<span>Urfa porsiyon</span>
-<span class="price">500 TL</span>
-</div>
-<div class="menu-item">
-<span>Tavuk dürüm</span>
-<span class="price">260 TL</span>
-</div>
-<div class="menu-item">
-<span>Tavuk porsiyon</span>
-<span class="price">360 TL</span>
-</div>
-<div class="menu-item">
-<span>Ciğer dürüm</span>
-<span class="price">300 TL</span>
-</div>
-<div class="menu-item">
-<span>Ciğer porsiyon</span>
-<span class="price">600 TL</span>
-</div>
-<div class="menu-item">
-<span>Tavuk kanat porsiyon</span>
-<span class="price">425 TL</span>
-</div>
-<div class="menu-item">
-<span>Tavuk kanat kilo</span>
-<span class="price">750 TL</span>
-</div>
-<div class="menu-item">
-<span>Tavuk şiş porsiyon</span>
-<span class="price">250 TL</span>
-</div>
-<div class="menu-item">
-<span>Tavuk şiş kilo</span>
-<span class="price">600 TL</span>
-</div>
-<div class="menu-item">
-<span>Ayran</span>
-<span class="price">100 TL</span>
+<!-- MENÜ -->
+<section id="menu">
+<h2>Lezzet Menümüz</h2>
+
+<div class="menu-category">
+<h3>Kebaplar & Dürümler</h3>
+<div class="menu-item"><span>Adana Porsiyon</span><span class="price">500 TL</span></div>
+<div class="menu-item"><span>Adana Dürüm</span><span class="price">350 TL</span></div>
+<div class="menu-item"><span>Urfa Porsiyon</span><span class="price">500 TL</span></div>
+<div class="menu-item"><span>Urfa Dürüm</span><span class="price">350 TL</span></div>
+<div class="menu-item"><span>Tavuk Dürüm</span><span class="price">300 TL</span></div>
+<div class="menu-item"><span>Kanat (1 kg)</span><span class="price">700 TL</span></div>
+<div class="menu-item"><span>Kanat Porsiyon</span><span class="price">450 TL</span></div>
+<div class="menu-item"><span>Kuzu Şiş Porsiyon</span><span class="price">650 TL</span></div>
+<div class="menu-item"><span>Kuzu Şiş Dürüm</span><span class="price">400 TL</span></div>
+<div class="menu-item"><span>Ciğer Dürüm</span><span class="price">350 TL</span></div>
+<div class="menu-item"><span>Ciğer Porsiyon</span><span class="price">600 TL</span></div>
 </div>
 
-<div class="contact">
-📞 0552 118 04 77
+<div class="menu-category">
+<h3>İçecekler</h3>
+<div class="menu-item"><span>Fanta</span><span class="price">100 TL</span></div>
+<div class="menu-item"><span>Şişe Kola</span><span class="price">100 TL</span></div>
+<div class="menu-item"><span>Sprite</span><span class="price">100 TL</span></div>
+<div class="menu-item"><span>Cappy</span><span class="price">100 TL</span></div>
+<div class="menu-item"><span>Ayran</span><span class="price">100 TL</span></div>
+<div class="menu-item"><span>Şalgam</span><span class="price">100 TL</span></div>
+<div class="menu-item"><span>Su</span><span class="price">20 TL</span></div>
 </div>
+</section>
+
+<!-- VİZYON & MİSYON -->
+<section id="vizyon-misyon">
+<h2>Vizyonumuz & Misyonumuz</h2>
+<div class="about-grid">
+<div class="about-card">
+<h3>Vizyonumuz</h3>
+<p>Geleneksel ocakbaşı kültürünü modern ve kaliteli hizmet anlayışıyla buluşturarak, eşsiz lezzetlerimizi sadece yerel değil, ulusal düzeyde tanınan bir marka haline getirmek ve sektörde öncü bir lezzet durağı olmak.</p>
+</div>
+<div class="about-card">
+<h3>Misyonumuz</h3>
+<p>En taze etleri ustalıkla işleyerek, hijyenik koşullarda hazırladığımız eşsiz dürümleri ve kebapları misafirlerimize sunmak; her lokmada aynı kaliteyi ve güler yüzlü hizmeti "Çoban salata, ezme, turşu bizden" dostane anlayışıyla yaşatmak.</p>
+</div>
+</div>
+</section>
+
+<!-- İLETİŞİM -->
+<section id="iletisim">
+<h2>İletişim & Sipariş</h2>
+<div class="about-grid">
+<div class="contact-card">
+<h3>Telefon ile Sipariş ve Rezervasyon</h3>
+<p>Hemen arayın, kapınıza kadar getirelim veya masanızı ayırtalım!</p>
+<p><a href="tel:05521180477">📞 0552 118 04 77</a></p>
+</div>
+</div>
+</section>
+
 </div>
 
+<footer>
+<p>Afiyet Olsun! - Fiyatlarımıza KDV Dahildir | Telefon: 0552 118 04 77 | Dürümistan © 2026</p>
+</footer>
+
+<!-- Arka Plan Slider ve Müzik Kontrol Kodları -->
+<script>
+// Arka Plan Resim Geçiş Efekti (Slider)
+let slides = document.querySelectorAll('.bg-slide');
+let currentSlide = 0;
+
+function nextSlide() {
+slides[currentSlide].classList.remove('active');
+currentSlide = (currentSlide + 1) % slides.length;
+slides[currentSlide].classList.add('active');
+}
+setInterval(nextSlide, 5000); // Her 5 saniyede bir resim değişir ve derinlik katar
+
+// Müzik Başlatma / Durdurma Fonksiyonu
+function toggleMusic() {
+let music = document.getElementById('bgMusic');
+let musicText = document.getElementById('musicText');
+
+if (music.paused) {
+music.play();
+musicText.innerText = "Müziği Kapat";
+} else {
+music.pause();
+musicText.innerText = "Müziği Aç";
+}
+}
+</script>
 </body>
 </html>
 
